@@ -8,6 +8,45 @@
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply font-sans antialiased bg-gray-50 text-foreground;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-3xl lg:text-4xl;
+  }
+
+  h2 {
+    @apply text-2xl lg:text-3xl;
+  }
+
+  h3 {
+    @apply text-xl lg:text-2xl;
+  }
+}
+
+@layer components {
+  .gradient-heading {
+    @apply bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent;
+  }
+  
+  .card {
+    @apply transition-all duration-200 hover:shadow-md;
+  }
+
+  .btn-gradient {
+    @apply bg-gradient-to-r from-primary to-primary/90 text-white hover:from-primary/90 hover:to-primary shadow-md hover:shadow-lg transition-all duration-200;
+  }
+
+  .hero-pattern {
+    background-color: rgba(249, 250, 251, 1);
+    background-image:  
+      radial-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+      radial-gradient(rgba(59, 130, 246, 0.1) 1px, rgba(249, 250, 251, 1) 1px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
   }
 }

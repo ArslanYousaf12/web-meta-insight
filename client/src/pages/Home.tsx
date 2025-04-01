@@ -46,6 +46,10 @@ export default function Home() {
         title: "Analysis complete",
         description: `Successfully analyzed SEO tags for ${data.url}`,
       });
+      // Scroll to results
+      setTimeout(() => {
+        document.getElementById('results')?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     },
     onError: (error) => {
       toast({
@@ -66,23 +70,43 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-gray-50 font-sans text-gray-800 min-h-screen flex flex-col">
+    <div className="font-sans text-gray-800 min-h-screen flex flex-col">
       <Header />
       
+      {/* Hero section */}
+      <div className="hero-pattern py-12 md:py-20 border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-heading">
+              SEO Meta Tag Analysis
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 mb-8">
+              Analyze any website's SEO meta tags and get instant insights to improve your search engine visibility
+            </p>
+          </div>
+          
+          <UrlForm onAnalyze={handleAnalyze} />
+        </div>
+      </div>
+      
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
-        <UrlForm onAnalyze={handleAnalyze} />
-        
-        {mutation.isPending && <LoadingState />}
+        {mutation.isPending && (
+          <div className="my-8">
+            <LoadingState />
+          </div>
+        )}
         
         {mutation.isError && (
-          <ErrorState 
-            message={mutation.error?.message || "Failed to analyze the website. Please check the URL and try again."}
-            onTryAgain={handleTryAgain} 
-          />
+          <div className="my-8">
+            <ErrorState 
+              message={mutation.error?.message || "Failed to analyze the website. Please check the URL and try again."}
+              onTryAgain={handleTryAgain} 
+            />
+          </div>
         )}
         
         {mutation.isSuccess && results && (
-          <div className="space-y-8">
+          <div id="results" className="space-y-8 my-8">
             <ScoreOverview 
               analyzedUrl={results.url}
               scoreData={results.scoreData}
@@ -94,9 +118,10 @@ export default function Home() {
               twitterPreview={results.twitterPreview} 
             />
             
-            <MetaTagsList tags={results.foundTags} />
-            
-            <Recommendations recommendations={results.recommendations} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <MetaTagsList tags={results.foundTags} />
+              <Recommendations recommendations={results.recommendations} />
+            </div>
           </div>
         )}
       </main>
